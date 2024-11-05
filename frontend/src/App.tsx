@@ -1,7 +1,6 @@
 import AppWrapper from './App.style';
 
-import PokedexScreen from './screens/pokedex/pokedexScreen';
-
+import PokedexScreen from '../src/screens/pokedex/PokedexScreen';
 const App = () => {
     return (
         <AppWrapper>
