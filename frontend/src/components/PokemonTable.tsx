@@ -1,9 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchHeaviestPokemon } from '../redux/actions/pokemonActions';
-import { RootState, AppDispatch } from '../redux/store';
+import React from 'react';
 import styled from 'styled-components';
-
 import { Theme } from '../theme/types';
 import { useTheme } from '../context/useTheme';
 
@@ -15,6 +11,7 @@ const Container = styled.div`
     border-radius: 8px; /* Bordes redondeados opcionales */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra opcional */
 `;
+
 const Table = styled.table<{ theme: Theme }>`
     width: 100%;
     border-collapse: collapse;
@@ -38,13 +35,13 @@ const Table = styled.table<{ theme: Theme }>`
         }
     }
 `;
-const PokemonTable: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>();
-    const pokemonList = useSelector((state: RootState) => state.pokemon.list);
+
+interface PokemonTableProps {
+    pokemonList: { id: number; name: string; height: number; weight: number; url: string }[];
+}
+
+const PokemonTable: React.FC<PokemonTableProps> = ({ pokemonList }) => {
     const { theme } = useTheme();
-    useEffect(() => {
-        dispatch(fetchHeaviestPokemon());
-    }, [dispatch]);
 
     return (
         <Container>

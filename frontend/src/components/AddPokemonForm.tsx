@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { addPokemon } from '../redux/actions/pokemonActions.js';
-import { AppDispatch } from '../redux/store.js';
 
-const Container = styled.div`
-    width: 957px; /* Ancho del contenedor */
-    margin: 0 auto; /* Centrar el contenedor horizontalmente */
-    padding: 20px; /* Espaciado interno */
-    border: 1px solid #ccc; /* Borde opcional */
-    border-radius: 8px; /* Bordes redondeados opcionales */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+import { Pokemon } from '../models/pokemon.model';
+
+const ModalBackground = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const ModalContainer = styled.div`
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px; /* Ancho del modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 
 const FormWrapper = styled.form`
@@ -40,9 +50,10 @@ const FormWrapper = styled.form`
     }
 `;
 
-const AddPokemonForm: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>();
-
+const AddPokemonForm: React.FC<{ onClose: () => void; onAdd: (newPokemon: Pokemon) => void }> = ({
+    onClose,
+    onAdd,
+}) => {
     const [name, setName] = useState('');
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
@@ -67,7 +78,10 @@ const AddPokemonForm: React.FC = () => {
             updatedAt: new Date().toISOString(),
         };
 
-        dispatch(addPokemon(newPokemon));
+        alert('¡Pokémon agregado exitosamente!');
+
+        onAdd(newPokemon);
+        onClose();
 
         setName('');
         setHeight('');
@@ -75,57 +89,63 @@ const AddPokemonForm: React.FC = () => {
         setNumber('');
         setHealth('');
         setImageUrl('');
+        onClose();
     };
 
     return (
-        <Container>
-            <FormWrapper onSubmit={handleSubmit}>
+        <ModalBackground>
+            <ModalContainer>
                 <h2>Add a New Pokémon</h2>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Height"
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Weight"
-                    value={weight}
-                    onChange={(e) => setWeight(e.target.value)}
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Number"
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)}
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Health"
-                    value={health}
-                    onChange={(e) => setHealth(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Image URL"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
-                    required
-                />
-                <button type="submit">Add Pokémon</button>
-            </FormWrapper>
-        </Container>
+                <FormWrapper onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="number"
+                        placeholder="Height"
+                        value={height}
+                        onChange={(e) => setHeight(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="number"
+                        placeholder="Weight"
+                        value={weight}
+                        onChange={(e) => setWeight(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="number"
+                        placeholder="Number"
+                        value={number}
+                        onChange={(e) => setNumber(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="number"
+                        placeholder="Health"
+                        value={health}
+                        onChange={(e) => setHealth(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Image URL"
+                        value={imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
+                        required
+                    />
+                    <button type="submit">Save Pokémon</button>
+                    <button type="button" onClick={onClose}>
+                        Close
+                    </button>
+                </FormWrapper>
+            </ModalContainer>
+        </ModalBackground>
     );
 };
 

@@ -15,10 +15,11 @@ const pokemonSlice = createSlice({
             state.list = action.payload;
         },
         addNewPokemon(state, action: PayloadAction<Pokemon>) {
-            state.list.push(action.payload);
+            state.list.unshift(action.payload);
         },
     },
 });
-console.log(pokemonSlice);
+
 export const { setPokemonList, addNewPokemon } = pokemonSlice.actions;
+
 export default pokemonSlice.reducer;
