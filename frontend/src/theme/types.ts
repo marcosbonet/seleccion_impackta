@@ -1,5 +1,15 @@
-import { Theme } from './types';
+export interface Theme {
+    background: string;
+    text: string;
+    tableHeaderBackground: string;
+    tableRowBackground: string;
+    tableRowHover: string;
+}
 
+export interface ThemeContextType {
+    theme: Theme;
+    toggleTheme: () => void;
+}
 export const MainTheme = {
     light: {
         background: '#FFFFFF',
