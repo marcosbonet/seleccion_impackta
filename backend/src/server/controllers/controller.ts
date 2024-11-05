@@ -13,19 +13,28 @@ const getHeaviestPokemon = async (req: Request, res: Response) => {
   }
 };
 const createPokemon = async (req: Request, res: Response) => {
-  const { name, type, height, weight, image } = req.body;
+  const { name, height, weight, number, health, url } = req.body;
   try {
+    if (!name || !height || !weight || !number || !health || !url) {
+      return res.status(400).json({ message: "Faltan datos requeridos" });
+    }
+
     const newPokemon = await Pokemon.create({
       name,
-      type,
       height,
       weight,
-      image,
+      number,
+      health,
+      url,
     });
+
     res.status(201).json(newPokemon);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al crear el Pokémon" });
+
+    res
+      .status(500)
+      .json({ message: "Error al crear el Pokémon", error: error });
   }
 };
 
