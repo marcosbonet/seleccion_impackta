@@ -6,8 +6,7 @@ import { connectToDatabase, db } from "./config/db";
 
 import * as dotenv from "dotenv";
 import path from "path";
-
-import exampleRoutes from "./routes/exampleRoutes";
+import router from "./routes/routes";
 
 dotenv.config({ path: path.resolve(__dirname, "../..", ".env") });
 
@@ -28,9 +27,12 @@ const initializeServer = (port: number): void => {
   connectToDatabase();
 };
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.use(express.json());
-app.use(exampleRoutes);
-
+app.use(router);
 
 export default initializeServer;
