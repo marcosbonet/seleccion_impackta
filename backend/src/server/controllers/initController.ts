@@ -1,5 +1,5 @@
 import Pokemon from "../database/models/pokemon";
-const init =  async () => {
+const init = async () => {
   try {
     const pokemonAuxArray = [];
     for (let i = 1; i <= 152; i++) {
